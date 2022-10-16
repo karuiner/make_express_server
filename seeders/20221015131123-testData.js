@@ -1,5 +1,6 @@
 "use strict";
 const Models = require("../models");
+const bcrypt = require("bcrypt");
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
@@ -25,21 +26,20 @@ module.exports = {
         },
       ],
     }).then((x) => x.map((xx) => xx.dataValues.id));
-    console.log(users);
 
     await queryInterface.bulkInsert(
       "Auth",
       [
         {
-          password: "password1",
+          password: bcrypt.hashSync("password1", 8),
           userId: users[0],
         },
         {
-          password: "password2",
+          password: bcrypt.hashSync("password2", 8),
           userId: users[1],
         },
         {
-          password: "password3",
+          password: bcrypt.hashSync("password3", 8),
           userId: users[2],
         },
       ],
