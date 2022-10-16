@@ -9,7 +9,10 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.hasOne(models.Auth);
+      this.hasOne(models.Auth, {
+        foreignKey: "userId",
+        onDelete: "cascade",
+      });
     }
   }
   User.init(

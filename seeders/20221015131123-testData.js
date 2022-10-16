@@ -1,9 +1,9 @@
 "use strict";
-
+const Models = require("../models");
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    const users = await queryInterface.bulkInsert(
+    await queryInterface.bulkInsert(
       "User",
       [
         {
@@ -18,20 +18,29 @@ module.exports = {
       ],
       {}
     );
+    const users = await Models.User.findAll({
+      include: [
+        {
+          model: Models.Auth,
+        },
+      ],
+    }).then((x) => x.map((xx) => xx.dataValues.id));
+    console.log(users);
+
     await queryInterface.bulkInsert(
       "Auth",
       [
         {
           password: "password1",
-          userId: 13,
+          userId: users[0],
         },
         {
           password: "password2",
-          userId: 14,
+          userId: users[1],
         },
         {
           password: "password3",
-          userId: 15,
+          userId: users[2],
         },
       ],
       {}

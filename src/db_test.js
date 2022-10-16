@@ -10,3 +10,7 @@ Models.User.findAll({
 }).then((x) => {
   console.log(x);
 });
+
+Models.Auth.destroy({
+  where: { id: 2 },
+});
